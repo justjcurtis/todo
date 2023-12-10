@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { checkPassword } from '../utils/password'
+import { useUserContext } from '../hooks/useUserContext'
 
 export const Login = () => {
+    const { login } = useUserContext()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -12,6 +14,20 @@ export const Login = () => {
 
     const isValid = isUsernameValid && isPasswordValid
 
+    const [hasError, setHasError] = useState(false)
+    const handleSubmit = async () => {
+        const result = await login(username, password)
+        if (result.message) {
+            setHasError(true)
+            return
+        }
+    }
+    const styles = {
+        errorMessage: {
+            opacity: hasError ? 1 : 0,
+            transition: 'all 0.5s ease-in-out'
+        }
+    }
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -37,7 +53,8 @@ export const Login = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button disabled={!isValid} className="btn btn-primary">Login</button>
+                            <p style={styles.errorMessage}>Username / Password incorrect</p>
+                            <button onClick={handleSubmit} disabled={!isValid} className="btn btn-primary">Login</button>
                         </div>
                     </form>
                 </div>
