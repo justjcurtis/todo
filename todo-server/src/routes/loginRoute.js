@@ -7,6 +7,7 @@ const rejectLoginRoute = (req, res) => {
 }
 
 const loginRoute = async (req, res) => {
+    // TODO: add refresh token + expiration to tokens
     const username = req.body.username;
     const password = req.body.password;
     if (!username || !password) return res.status(400).json({ error: 'Missing username and/or password' });
