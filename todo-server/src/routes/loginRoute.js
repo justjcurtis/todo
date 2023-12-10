@@ -12,7 +12,6 @@ const loginRoute = async (req, res) => {
     if (!username || !password) return res.status(400).json({ error: 'Missing username and/or password' });
     const user = await UserModel.findOne({ username })
     if (!user) return rejectLoginRoute(req, res);
-    console.log('user', user)
     const valid = await compare(password, user.hash);
     if (!valid) return rejectLoginRoute(req, res);
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
