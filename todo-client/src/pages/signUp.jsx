@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useUserContext } from '../hooks/useUserContext'
 import { checkPassword } from '../utils/password'
 import { InfoCard } from '../components/infoCard'
 import { signupRequest } from '../api/signupRequest'
@@ -10,6 +11,7 @@ const messages = {
 }
 
 export const SignUp = () => {
+    const { isLoggedIn } = useUserContext()
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -29,7 +31,6 @@ export const SignUp = () => {
         e.preventDefault()
         try {
             await signupRequest(username, password)
-            navigate('/login')
         } catch (error) {
             if (error.message.includes('Username')) {
                 setErrorMessage(messages.usernameTaken)
@@ -40,6 +41,12 @@ export const SignUp = () => {
             return
         }
     }
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            navigate('/')
+        }
+    }, [navigate, isLoggedIn])
 
     const styles = {
         errorMessage: {
