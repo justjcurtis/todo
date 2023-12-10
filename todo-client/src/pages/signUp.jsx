@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { checkPassword } from '../utils/password'
 import { InfoCard } from '../components/infoCard'
 import { signupRequest } from '../api/signupRequest'
@@ -9,6 +10,7 @@ const messages = {
 }
 
 export const SignUp = () => {
+    const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -26,6 +28,7 @@ export const SignUp = () => {
     const handleSubmit = async () => {
         try {
             await signupRequest(username, password)
+            navigate('/login')
         } catch (error) {
             if (error.message.includes('Username')) {
                 setErrorMessage(messages.usernameTaken)
