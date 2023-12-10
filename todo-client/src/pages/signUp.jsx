@@ -1,10 +1,17 @@
 import { useState } from 'react'
 import { checkPassword } from '../utils/password'
 import { InfoCard } from '../components/infoCard'
+import { signupRequest } from '../api/signupRequest'
+
+const messages = {
+    default: 'Please make sure your username is at least 3 characters and that your password meets the critera shown',
+    usernameTaken: 'Username already taken',
+}
+
 export const SignUp = () => {
     const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordConfirm, setPasswordConfirm] = useState('')
+    const [password, setPassword] = useState('PasswordA123!@£')
+    const [passwordConfirm, setPasswordConfirm] = useState('PasswordA123!@£')
 
     const isUsernameValid = username.length >= 3
 
@@ -13,6 +20,29 @@ export const SignUp = () => {
     const isConfirmValid = passwordConfirm === password
 
     const isValid = isUsernameValid && isPasswordValid && isConfirmValid
+
+    const [hasError, setHasError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const handleSubmit = async () => {
+        try {
+            await signupRequest(username, password)
+        } catch (error) {
+            if (error.message.includes('Username')) {
+                setErrorMessage(messages.usernameTaken)
+            } else {
+                setErrorMessage(messages.default)
+            }
+            setHasError(true)
+            return
+        }
+    }
+
+    const styles = {
+        errorMessage: {
+            opacity: hasError ? 1 : 0,
+            transition: 'all 0.5s ease-in-out'
+        }
+    }
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -42,17 +72,18 @@ export const SignUp = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="password" className="input input-bordered" required />
+                            <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="password" className="input input-bordered" required />
                             <label className="label">
                                 <span className="label-text">Password Confirmation</span>
                             </label>
-                            <input onChange={(e) => setPasswordConfirm(e.target.value)} type="password" placeholder="password again" className="input input-bordered" required />
+                            <input onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} type="password" placeholder="password again" className="input input-bordered" required />
                             <label className="label"> Already have an account?
                                 <a href="#/login" className="label-text-alt link link-hover">Login</a>
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button disabled={!isValid} className="btn btn-primary">Sign Up</button>
+                            <p style={styles.errorMessage}>{errorMessage}</p>
+                            <button onClick={handleSubmit} disabled={!isValid} className="btn btn-primary">Sign Up</button>
                         </div>
                     </form>
                 </div>
