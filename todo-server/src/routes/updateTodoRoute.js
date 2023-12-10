@@ -1,7 +1,7 @@
 const TodoModel = require('../models/todoModel');
 
 const updateTodoRoute = async (req, res) => {
-    const id = req.body.id;
+    const id = req.query.id;
     if (!id) return res.status(400).json({ error: 'Missing id' });
     const text = req.body.text;
     const completed = req.body.completed;
