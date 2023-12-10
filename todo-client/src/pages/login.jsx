@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { checkPassword } from '../utils/password'
 import { useUserContext } from '../hooks/useUserContext'
 
 export const Login = () => {
     const { login } = useUserContext()
+    const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -21,6 +23,7 @@ export const Login = () => {
             setHasError(true)
             return
         }
+        navigate('/')
     }
     const styles = {
         errorMessage: {
