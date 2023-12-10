@@ -10,8 +10,8 @@ const messages = {
 
 export const SignUp = () => {
     const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('PasswordA123!@£')
-    const [passwordConfirm, setPasswordConfirm] = useState('PasswordA123!@£')
+    const [password, setPassword] = useState('')
+    const [passwordConfirm, setPasswordConfirm] = useState('')
 
     const isUsernameValid = username.length >= 3
 
@@ -72,11 +72,11 @@ export const SignUp = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" placeholder="password" className="input input-bordered" required />
+                            <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="password" className="input input-bordered" required />
                             <label className="label">
                                 <span className="label-text">Password Confirmation</span>
                             </label>
-                            <input onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} type="password" placeholder="password again" className="input input-bordered" required />
+                            <input onChange={(e) => setPasswordConfirm(e.target.value)} type="password" placeholder="password again" className="input input-bordered" required />
                             <label className="label"> Already have an account?
                                 <a href="#/login" className="label-text-alt link link-hover">Login</a>
                             </label>
