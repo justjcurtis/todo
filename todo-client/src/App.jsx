@@ -13,7 +13,7 @@ function App() {
   const location = useLocation()
 
   return (
-    <div className="App bg-focus">
+    <div className="App bg-primary-content min-h-[100svh]">
       <Navbar />
       <Routes location={location} key={location.pathname}>
         <Route exact path={AppRoutes.home} element={<Pages.Home />} />
