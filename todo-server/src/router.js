@@ -8,7 +8,7 @@ router.post('/todos', middleware.isAuthorized, routes.createTodoRoute);
 router.patch('/todos', middleware.isAuthorized, routes.updateTodoRoute);
 router.delete('/todos', middleware.isAuthorized, routes.deleteTodoRoute);
 
-router.get('/login', routes.loginRoute);
+router.post('/login', routes.loginRoute);
 router.post('/signup', routes.createUserRoute);
 
 module.exports = router;
