@@ -31,6 +31,7 @@ export const SignUp = () => {
         e.preventDefault()
         try {
             await signupRequest(username, password)
+            navigate('/login')
         } catch (error) {
             if (error.message.includes('Username')) {
                 setErrorMessage(messages.usernameTaken)
