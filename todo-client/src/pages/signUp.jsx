@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { checkPassword } from '../utils/password'
+import { InfoCard } from '../components/infoCard'
 export const SignUp = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -16,9 +17,18 @@ export const SignUp = () => {
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
-                <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Sign Up Now!</h1>
-                    <p className="py-6">Our state of the art do and to algorithm is a must have in today{"'"}s fast paced world. Sign up now to start doing all those tos.</p>
+                <div className='flex flex-col'>
+                    <div className="text-center lg:text-left">
+                        <h1 className="text-5xl font-bold">Sign Up Now!</h1>
+                        <p className="py-6">Our state of the art do and to algorithm is a must have in today{"'"}s fast paced world. Sign up now to start doing all those tos.</p>
+                    </div>
+                    <InfoCard title="About your password" info={[
+                        "Must be at least 8 characters long",
+                        "Must contain at least 2 lowercase letters",
+                        "Must contain at least 2 uppercase letters",
+                        "Must contain at least 2 numbers",
+                        "Must contain at least 1 special character",
+                    ]} />
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form className="card-body">
