@@ -10,14 +10,14 @@ export const UserProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const result = await loginRequest(email, password)
+      localStorage.setItem('token', result.token)
       setToken(result.token)
-      localStorage.setItem('token', token)
-      return result
     } catch (err) {
       return err
     }
   }
   const logout = () => {
+    localStorage.removeItem('token')
     setToken(null)
   }
   return (
