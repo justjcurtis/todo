@@ -8,8 +8,7 @@ const readTodosRoute = async (req, res) => {
     query.skip(skip).limit(limit);
     const countQuery = await TodoModel.countDocuments({ userId: req.user.id });
     const todos = await query;
-    res.set('X-Total-Count', countQuery);
-    res.json(todos);
+    res.json({ todos, totalCount: countQuery });
 }
 
 module.exports = readTodosRoute;
