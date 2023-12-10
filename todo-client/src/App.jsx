@@ -16,7 +16,9 @@ function App() {
     <div className="App bg-primary-content min-h-[100svh]">
       <Navbar />
       <Routes location={location} key={location.pathname}>
-        <Route exact path={AppRoutes.home} element={<Pages.Home />} />
+        <Route path={AppRoutes.home} element={<Pages.Home />} >
+          <Route path=":page" element={<Pages.Home />} />
+        </Route>
         <Route exact path={AppRoutes.about} element={<Pages.About />} />
         <Route exact path={AppRoutes.login} element={<Pages.Login />} />
         <Route exact path={AppRoutes.signup} element={<Pages.SignUp />} />
