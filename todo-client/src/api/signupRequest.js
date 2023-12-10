@@ -1,6 +1,6 @@
 import { API_URL } from '../constants';
 export const signupRequest = async (username, password) => {
-    const response = await fetch(`${API_URL}signup`, {
+    const response = await fetch(`${API_URL}/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
