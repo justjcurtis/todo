@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { checkPassword } from '../utils/password'
 import { useUserContext } from '../hooks/useUserContext'
 
 export const Login = () => {
-    const { login } = useUserContext()
+    const { login, isLoggedIn } = useUserContext()
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -17,20 +17,28 @@ export const Login = () => {
     const isValid = isUsernameValid && isPasswordValid
 
     const [hasError, setHasError] = useState(false)
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         const result = await login(username, password)
-        if (result.message) {
+        if (result) {
             setHasError(true)
             return
         }
-        navigate('/')
     }
+
     const styles = {
         errorMessage: {
             opacity: hasError ? 1 : 0,
             transition: 'all 0.5s ease-in-out'
         }
     }
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            navigate('/')
+        }
+    }, [navigate, isLoggedIn])
+
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">

@@ -25,7 +25,8 @@ export const SignUp = () => {
 
     const [hasError, setHasError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         try {
             await signupRequest(username, password)
             navigate('/login')
