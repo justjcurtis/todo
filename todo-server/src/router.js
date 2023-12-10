@@ -6,5 +6,6 @@ const middleware = require('./middleware');
 router.get('/todos', middleware.isAuthorized, routes.readTodosRoute);
 router.post('/todos', middleware.isAuthorized, routes.createTodoRoute);
 router.get('/login', routes.loginRoute);
+router.post('/signup', routes.createUserRoute);
 
 module.exports = router;
