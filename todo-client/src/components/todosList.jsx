@@ -27,7 +27,10 @@ export const TodosList = ({ page }) => {
                         key={todo._id}
                         text={todo.text}
                         completed={todo.completed}
-                        onToggleCompleted={() => updateTodo(todo._id, { text: todo.text, completed: !todo.completed })}
+                        onChange={(text, completed) => updateTodo(
+                            todo._id,
+                            { text, completed }
+                        )}
                         onDelete={() => deleteTodo(todo._id)}
                     />
                 ))}
