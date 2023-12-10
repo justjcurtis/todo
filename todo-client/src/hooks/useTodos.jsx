@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useUserContext } from './useUserContext';
 import { getTodosRequest } from '../api/getTodosRequest'
+import { deleteTodoRequest } from '../api/deleteTodoRequest'
 
 export const useTodos = () => {
   const { token, isLoggedIn } = useUserContext();
@@ -10,7 +11,7 @@ export const useTodos = () => {
   const [currentPage, setCurrentPage] = useState(-1);
 
   const fetchTodos = async (page = 1, limit = 10) => {
-    if (currentPage == page || !isLoggedIn()) {
+    if (!isLoggedIn()) {
       return;
     }
     setLoading(true);
@@ -26,10 +27,25 @@ export const useTodos = () => {
     }
   }
 
+  const deleteTodo = async (id) => {
+    if (!isLoggedIn()) {
+      return;
+    }
+    setLoading(true);
+    try {
+      await deleteTodoRequest(id, token);
+      await fetchTodos();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchTodos();
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { todos, loading, fetchTodos, maxPages, currentPage };
+  return { todos, loading, fetchTodos, deleteTodo, maxPages, currentPage };
 }
 
