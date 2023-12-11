@@ -44,9 +44,9 @@ export const TodosList = ({ page }) => {
     }
 
     return (
-        <div className='flex flex-col mx-auto mt-10 pb-10 bg-primary-content max-w-[1080px] pt-16'>
+        <div className='flex flex-col mx-auto mt-5 bg-primary-content max-w-[1080px] pt-16'>
             <div className="flex flex-col justify-center mx-5">
-                <div className='flex mb-8'>
+                <div className='flex mb-4'>
                     <button onClick={cycleFilter} className='btn w-24 mr-5'>{filterMap[filter].name}</button>
                     <input ref={searchInputRef} onChange={debounce(handleSearch, 500)} type="text" placeholder="Search todos" className="input input-bordered w-full" />
                 </div>
@@ -64,7 +64,7 @@ export const TodosList = ({ page }) => {
                     />
                 ))}
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-3">
                 <div className="join">
                     {Array.from(Array(maxPages).keys()).map((_, i) => (
                         <button key={i} onClick={() => handlePageChange(i + 1)} className={`join-item btn ${currentPage === i + 1 ? 'btn-active' : ''}`}>{i + 1}</button>
