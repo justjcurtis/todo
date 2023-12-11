@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    csrf: {
+        type: String,
+        default: ''
+    }
 })
 
 const UserModel = mongoose.model('User', userSchema);

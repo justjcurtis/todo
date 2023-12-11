@@ -5,5 +5,6 @@ export const loginRequest = async (username, password) => {
         username,
         password,
     }, { withCredentials: true });
-    return response.status === 200;
+    if (response.status == 200) return response.data;
+    throw new Error(response.error);
 }
