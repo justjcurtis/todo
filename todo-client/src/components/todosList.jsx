@@ -22,7 +22,7 @@ export const TodosList = ({ page }) => {
     }
 
     return (
-        <div className='flex flex-col mx-auto mt-10 max-w-[1080px]'>
+        <div className='flex flex-col mx-auto mt-10 pb-10 bg-primary-content max-w-[1080px] pt-16'>
             <div className="flex flex-col justify-center mx-5">
                 <NewTodo onCreate={createTodo} />
                 {todos.map(todo => (
