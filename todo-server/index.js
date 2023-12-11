@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(cors({ origin: true, credentials: true }))
+app.use(cors({ origin: 'https://justjcurtis.dev', credentials: true }))
 app.use(morgan('tiny'))
 app.use(express.json());
 app.use(cookieParser())

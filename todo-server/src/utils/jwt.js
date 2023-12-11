@@ -26,7 +26,7 @@ const setTokens = async (user, res, accessToken, refreshToken, csrf) => {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
         sameSite: 'lax',
-        secure: false,
+        secure: true,
         maxAge: process.env.JWT_EXPIRES_IN
     })
 
@@ -34,7 +34,7 @@ const setTokens = async (user, res, accessToken, refreshToken, csrf) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         sameSite: 'lax',
-        secure: false,
+        secure: true,
         maxAge: process.env.REFRESH_TOKEN_EXPIRES_IN
     })
 
