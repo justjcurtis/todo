@@ -7,7 +7,6 @@ const rejectLoginRoute = (req, res) => {
 }
 
 const loginRoute = async (req, res) => {
-    // TODO: add refresh token + expiration to tokens
     const username = req.body.username;
     const password = req.body.password;
     if (!username || !password) return res.status(400).json({ error: 'Missing username and/or password' });
@@ -16,7 +15,12 @@ const loginRoute = async (req, res) => {
     const valid = await compare(password, user.hash);
     if (!valid) return rejectLoginRoute(req, res);
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res.json({ token });
+    res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false,
+    })
+    res.sendStatus(200);
 }
 
 module.exports = loginRoute;

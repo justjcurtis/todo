@@ -1,15 +1,9 @@
 import { API_URL } from '../constants';
+import axios from 'axios';
 export const loginRequest = async (username, password) => {
-    const response = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-    });
-    const data = await response.json();
-    if (response.ok) {
-        return data;
-    }
-    throw new Error(data.error);
+    const response = await axios.post(`${API_URL}/login`, {
+        username,
+        password,
+    }, { withCredentials: true });
+    return response.status === 200;
 }

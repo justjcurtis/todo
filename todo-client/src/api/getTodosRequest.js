@@ -1,14 +1,10 @@
 import { API_URL } from '../constants'
-export const getTodosRequest = async (page = 1, limit = 10, search, completedFilter, token) => {
-    const response = await fetch(`${API_URL}/getTodos?page=${page}&limit=${limit}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ search, completedFilter }),
-    })
-    const data = await response.json()
-    if (!response.ok) throw new Error(data.error)
-    return data
+import axios from 'axios'
+export const getTodosRequest = async (page = 1, limit = 10, search, completedFilter) => {
+    const response = await axios.post(`${API_URL}/getTodos?page=${page}&limit=${limit}`, {
+        search,
+        completedFilter
+    }, { withCredentials: true });
+    if (response.status != 200) throw new Error(response.error)
+    return response.data
 }

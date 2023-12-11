@@ -5,12 +5,14 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 const router = require('./router');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }))
 app.use(morgan('tiny'))
 app.use(express.json());
+app.use(cookieParser())
 
 app.use(router);
 

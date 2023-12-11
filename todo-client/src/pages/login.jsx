@@ -34,7 +34,7 @@ export const Login = () => {
     }
 
     useEffect(() => {
-        if (isLoggedIn()) {
+        if (isLoggedIn) {
             navigate('/')
         }
     }, [navigate, isLoggedIn])

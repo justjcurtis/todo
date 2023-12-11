@@ -4,7 +4,7 @@ import { SignUpHero } from '../components/signUpHero'
 import { TodosList } from '../components/todosList'
 export const Home = () => {
     const { isLoggedIn } = useUserContext()
-    const showSignUpCTA = !isLoggedIn()
+    const showSignUpCTA = !isLoggedIn
     const { page } = useParams()
     return (
         <>

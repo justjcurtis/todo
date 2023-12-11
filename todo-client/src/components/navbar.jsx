@@ -2,7 +2,7 @@ import { useUserContext } from '../hooks/useUserContext'
 
 export const Navbar = () => {
     const { isLoggedIn, logout } = useUserContext()
-    const showLogin = !isLoggedIn()
+    const showLogin = !isLoggedIn
     return (
         <div className="navbar absolute top-0 bg-base-100">
             < div className="flex-1" >

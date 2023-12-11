@@ -5,23 +5,20 @@ import { loginRequest } from '../api/loginRequest'
 export const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token') || null)
-  const isLoggedIn = () => !!token
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const login = async (email, password) => {
     try {
-      const result = await loginRequest(email, password)
-      localStorage.setItem('token', result.token)
-      setToken(result.token)
+      await loginRequest(email, password)
+      setIsLoggedIn(true)
     } catch (err) {
-      return err
+      setIsLoggedIn(false)
     }
   }
   const logout = () => {
-    localStorage.removeItem('token')
-    setToken(null)
+    setIsLoggedIn(false)
   }
   return (
-    <UserContext.Provider value={{ token, isLoggedIn, login, logout }}>
+    <UserContext.Provider value={{ isLoggedIn, login, logout }}>
       {children}
     </UserContext.Provider>
   )

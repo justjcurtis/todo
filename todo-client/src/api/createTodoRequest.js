@@ -1,14 +1,10 @@
 import { API_URL } from '../constants';
-export const createTodoRequest = async (todo, token) => {
-    const response = await fetch(`${API_URL}/todo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(todo)
-    });
-    if (response.ok) return await response.json();
-    const data = await response.json();
-    throw new Error(data.error);
+import axios from 'axios';
+export const createTodoRequest = async (todo) => {
+    const response = await axios.post(`${API_URL}/todo`, {
+        text: todo.text,
+        completed: todo.completed
+    }, { withCredentials: true });
+    if (response.status == 200) return response.data
+    throw new Error(response.error);
 }

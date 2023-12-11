@@ -8,19 +8,19 @@ import { createTodoRequest } from '../api/createTodoRequest';
 const limit = 10;
 
 export const useTodos = (initialPage = 1) => {
-  const { token, isLoggedIn } = useUserContext();
+  const { isLoggedIn } = useUserContext();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [maxPages, setMaxPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const fetchTodos = async (page = 1, search, completedFilter) => {
-    if (!isLoggedIn()) {
+    if (!isLoggedIn) {
       return;
     }
     setLoading(true);
     try {
-      const result = await getTodosRequest(page, limit, search, completedFilter, token);
+      const result = await getTodosRequest(page, limit, search, completedFilter);
       setTodos(result.todos)
       setMaxPages(Math.ceil(result.totalCount / limit))
       setCurrentPage(page);
@@ -32,12 +32,12 @@ export const useTodos = (initialPage = 1) => {
   }
 
   const deleteTodo = async (id) => {
-    if (!isLoggedIn()) {
+    if (!isLoggedIn) {
       return;
     }
     setLoading(true);
     try {
-      await deleteTodoRequest(id, token);
+      await deleteTodoRequest(id);
       await fetchTodos(currentPage);
     } catch (err) {
       console.log(err);
@@ -47,12 +47,12 @@ export const useTodos = (initialPage = 1) => {
   }
 
   const updateTodo = async (id, todo) => {
-    if (!isLoggedIn()) {
+    if (!isLoggedIn) {
       return;
     }
     setLoading(true);
     try {
-      await updateTodoRequest(id, token, todo);
+      await updateTodoRequest(id, todo);
     } catch (err) {
       console.log(err);
     } finally {
@@ -61,12 +61,12 @@ export const useTodos = (initialPage = 1) => {
   }
 
   const createTodo = async (todo) => {
-    if (!isLoggedIn()) {
+    if (!isLoggedIn) {
       return;
     }
     setLoading(true);
     try {
-      await createTodoRequest(todo, token);
+      await createTodoRequest(todo);
       await fetchTodos(currentPage);
     } catch (err) {
       console.log(err);
