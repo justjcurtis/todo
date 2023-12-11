@@ -1,10 +1,12 @@
 import { useTodos } from '../hooks/useTodos';
+import { NewTodo } from './newTodo';
 import { Todo } from './todo';
 
 export const TodosList = ({ page }) => {
     if (page < 1) page = 1
     const {
         todos,
+        createTodo,
         fetchTodos,
         updateTodo,
         deleteTodo,
@@ -22,6 +24,7 @@ export const TodosList = ({ page }) => {
     return (
         <div className='flex flex-col mx-auto mt-10 max-w-[1080px]'>
             <div className="flex flex-col justify-center mx-5">
+                <NewTodo onCreate={createTodo} />
                 {todos.map(todo => (
                     <Todo
                         key={todo._id}
@@ -34,9 +37,6 @@ export const TodosList = ({ page }) => {
                         onDelete={() => deleteTodo(todo._id)}
                     />
                 ))}
-            </div>
-            <div className="flex my-5 justify-center">
-                <button className="btn btn-primary">Add Todo</button>
             </div>
             <div className="flex justify-center">
                 <div className="join">

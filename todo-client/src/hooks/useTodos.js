@@ -3,6 +3,7 @@ import { useUserContext } from './useUserContext';
 import { getTodosRequest } from '../api/getTodosRequest'
 import { deleteTodoRequest } from '../api/deleteTodoRequest'
 import { updateTodoRequest } from '../api/updateTodoRequest';
+import { createTodoRequest } from '../api/createTodoRequest';
 
 export const useTodos = (initialPage = 1) => {
   const { token, isLoggedIn } = useUserContext();
@@ -18,7 +19,7 @@ export const useTodos = (initialPage = 1) => {
     setLoading(true);
     try {
       const result = await getTodosRequest(page, limit, token);
-      setTodos(result.todos);
+      setTodos(result.todos)
       setMaxPages(Math.ceil(result.totalCount / limit))
       setCurrentPage(page);
     } catch (err) {
@@ -57,10 +58,25 @@ export const useTodos = (initialPage = 1) => {
     }
   }
 
+  const createTodo = async (todo) => {
+    if (!isLoggedIn()) {
+      return;
+    }
+    setLoading(true);
+    try {
+      await createTodoRequest(todo, token);
+      await fetchTodos(currentPage);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchTodos(initialPage);
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { todos, loading, fetchTodos, updateTodo, deleteTodo, maxPages, currentPage };
+  return { todos, loading, createTodo, fetchTodos, updateTodo, deleteTodo, maxPages, currentPage };
 }
 
