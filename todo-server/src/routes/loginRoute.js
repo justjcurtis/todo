@@ -14,7 +14,7 @@ const loginRoute = async (req, res) => {
     if (!user) return rejectLoginRoute(req, res);
     const valid = await compare(password, user.hash);
     if (!valid) return rejectLoginRoute(req, res);
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
     res.cookie('token', token, {
         httpOnly: true,
         sameSite: 'lax',

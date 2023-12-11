@@ -9,7 +9,7 @@ router.patch('/todo', middleware.isAuthorized, routes.updateTodoRoute);
 router.post('/deleteTodo', middleware.isAuthorized, routes.deleteTodoRoute);
 
 router.post('/login', routes.loginRoute);
-router.post('/logout', middleware.isAuthorized, routes.logoutRoute);
+router.post('/logout', routes.logoutRoute);
 router.post('/signup', routes.createUserRoute);
 
 module.exports = router;
