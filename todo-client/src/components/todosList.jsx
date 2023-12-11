@@ -1,7 +1,14 @@
+import { useState, useRef } from 'react';
 import { debounce } from '../utils/debounce';
 import { useTodos } from '../hooks/useTodos';
 import { NewTodo } from './newTodo';
 import { Todo } from './todo';
+
+const filterMap = {
+    undefined: { name: 'All', nextFilter: true },
+    true: { name: 'Completed', nextFilter: false },
+    false: { name: 'Incomplete', nextFilter: undefined }
+}
 
 export const TodosList = ({ page }) => {
     if (page < 1) page = 1
@@ -14,10 +21,20 @@ export const TodosList = ({ page }) => {
         currentPage,
         maxPages
     } = useTodos(page);
-    const handleSearch = (e) => {
-        fetchTodos(currentPage, e.target.value.toLowerCase())
+
+    const [filter, setFilter] = useState()
+    const cycleFilter = () => {
+        const nextFilter = filterMap[filter].nextFilter
+        setFilter(nextFilter)
+        const search = searchInputRef.current.value.toLowerCase()
+        fetchTodos(currentPage, search, nextFilter)
     }
 
+    const searchInputRef = useRef(null);
+    const handleSearch = (e) => {
+        const search = e.target.value.toLowerCase()
+        fetchTodos(currentPage, search, filter)
+    }
 
     const handlePageChange = async (newPage) => {
         // little bit gross but this make sure the url is updated
@@ -29,7 +46,10 @@ export const TodosList = ({ page }) => {
     return (
         <div className='flex flex-col mx-auto mt-10 pb-10 bg-primary-content max-w-[1080px] pt-16'>
             <div className="flex flex-col justify-center mx-5">
-                <input onChange={debounce(handleSearch, 500)} type="text" placeholder="Search todos" className="input input-bordered w-full mb-5" />
+                <div className='flex mb-8'>
+                    <button onClick={cycleFilter} className='btn w-24 mr-5'>{filterMap[filter].name}</button>
+                    <input ref={searchInputRef} onChange={debounce(handleSearch, 500)} type="text" placeholder="Search todos" className="input input-bordered w-full" />
+                </div>
                 <NewTodo onCreate={createTodo} />
                 {todos.map(todo => (
                     <Todo

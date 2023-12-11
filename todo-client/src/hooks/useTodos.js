@@ -14,13 +14,13 @@ export const useTodos = (initialPage = 1) => {
   const [maxPages, setMaxPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const fetchTodos = async (page = 1, search) => {
+  const fetchTodos = async (page = 1, search, completedFilter) => {
     if (!isLoggedIn()) {
       return;
     }
     setLoading(true);
     try {
-      const result = await getTodosRequest(page, limit, search, token);
+      const result = await getTodosRequest(page, limit, search, completedFilter, token);
       setTodos(result.todos)
       setMaxPages(Math.ceil(result.totalCount / limit))
       setCurrentPage(page);
