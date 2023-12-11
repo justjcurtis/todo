@@ -4,7 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
-const router = require('./router');
+const router = require('./src/router');
 const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 8080;
