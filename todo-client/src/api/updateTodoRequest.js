@@ -4,7 +4,7 @@ export const updateTodoRequest = async (id, todo) => {
     const response = await axios.patch(`${API_URL}/todo?id=${id}`, {
         text: todo.text,
         completed: todo.completed
-    }, { withCredentials: true });
+    });
     if (response.status == 200) return true
     throw new Error(response.error)
 }

@@ -4,7 +4,7 @@ export const loginRequest = async (username, password) => {
     const response = await axios.post(`${API_URL}/login`, {
         username,
         password,
-    }, { withCredentials: true });
+    });
     if (response.status == 200) return response.data;
     throw new Error(response.error);
 }

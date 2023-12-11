@@ -5,10 +5,6 @@ export const signupRequest = async (username, password) => {
         username,
         password,
     });
-    if (response.ok) {
-        return true
-    } else {
-        const data = await response.json();
-        throw new Error(data.error);
-    }
+    if (response.status == 200) return response.data
+    throw new Error(response.error);
 }
