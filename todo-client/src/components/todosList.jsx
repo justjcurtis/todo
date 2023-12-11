@@ -11,7 +11,6 @@ const filterMap = {
 }
 
 export const TodosList = ({ page }) => {
-    if (page < 1) page = 1
     const {
         todos,
         createTodo,
@@ -27,13 +26,15 @@ export const TodosList = ({ page }) => {
         const nextFilter = filterMap[filter].nextFilter
         setFilter(nextFilter)
         const search = searchInputRef.current.value.toLowerCase()
-        fetchTodos(currentPage, search, nextFilter)
+        const searchPage = search.length > 0 ? 1 : currentPage
+        fetchTodos(searchPage, search, nextFilter)
     }
 
     const searchInputRef = useRef(null);
     const handleSearch = (e) => {
         const search = e.target.value.toLowerCase()
-        fetchTodos(currentPage, search, filter)
+        const searchPage = search.length > 0 ? 1 : currentPage
+        fetchTodos(searchPage, search, filter)
     }
 
     const handlePageChange = async (newPage) => {
@@ -42,6 +43,8 @@ export const TodosList = ({ page }) => {
         window.history.pushState({}, '', `/#/${newPage}`);
         await fetchTodos(newPage);
     }
+
+    const showPagination = searchInputRef.current?.value.length === 0
 
     return (
         <div className='flex flex-col mx-auto mt-5 bg-primary-content max-w-[1080px] pt-16'>
@@ -66,7 +69,7 @@ export const TodosList = ({ page }) => {
             </div>
             <div className="flex justify-center mt-3">
                 <div className="join">
-                    {Array.from(Array(maxPages).keys()).map((_, i) => (
+                    {showPagination && Array.from(Array(maxPages).keys()).map((_, i) => (
                         <button key={i} onClick={() => handlePageChange(i + 1)} className={`join-item btn ${currentPage === i + 1 ? 'btn-active' : ''}`}>{i + 1}</button>
                     ))}
                 </div>
