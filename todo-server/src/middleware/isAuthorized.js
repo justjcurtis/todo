@@ -7,25 +7,21 @@ const rejectIsAuthorized = (res) => {
 }
 
 const isAuthorized = async (req, res, next) => {
-    const accessToken = req.cookies.accessToken;
+    let accessToken = req.cookies.accessToken;
     const refreshToken = req.cookies.refreshToken;
-    if (!accessToken) {
-        return res.status(401).json({ error: 'No accessToken provided' });
-    }
-
     const accessTokenDecoded = verifyToken(accessToken, process.env.JWT_SECRET)
-    if (accessTokenDecoded == null) {
+    if (!accessTokenDecoded) {
         if (!refreshToken) return rejectIsAuthorized(res);
         const refreshTokenDecoded = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
         if (refreshTokenDecoded == null) return rejectIsAuthorized(res);
         req.user = refreshTokenDecoded;
-        const user = getUserById(refreshTokenDecoded.id);
+        const user = await getUserById(refreshTokenDecoded.id);
         if (!user) return rejectIsAuthorized(res);
         const csrfisValid = verifyUserCsrf(user, req.headers['csrf-token'])
         if (!csrfisValid) return rejectIsAuthorized(res);
         if (user.refreshToken != refreshToken) return rejectIsAuthorized(res);
-        createToken({ id: refreshTokenDecoded.id }, process.env.JWT_SECRET, process.env.JWT_EXPIRES_IN);
-        setTokens(res, accessToken, refreshToken);
+        createToken({ id: user._id }, process.env.JWT_SECRET, process.env.JWT_EXPIRES_IN);
+        setTokens(user, res, accessToken, refreshToken);
         next();
     } else {
         req.user = accessTokenDecoded;

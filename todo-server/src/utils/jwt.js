@@ -11,6 +11,8 @@ const createToken = (payload, secret, expiresIn) => {
 }
 
 const verifyToken = (token, secret) => {
+    if (!token) return null;
+    if (!secret) return null;
     try {
         const decoded = jwt.verify(token, secret);
         return decoded;
