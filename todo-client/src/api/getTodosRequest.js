@@ -1,11 +1,12 @@
 import { API_URL } from '../constants'
-export const getTodosRequest = async (page = 1, limit = 10, token) => {
-    const response = await fetch(`${API_URL}/todos?page=${page}&limit=${limit}`, {
-        method: 'GET',
+export const getTodosRequest = async (page = 1, limit = 10, search, token) => {
+    const response = await fetch(`${API_URL}/getTodos?page=${page}&limit=${limit}`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ search }),
     })
     const data = await response.json()
     if (!response.ok) throw new Error(data.error)

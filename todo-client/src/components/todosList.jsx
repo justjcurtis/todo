@@ -1,12 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { debounce } from '../utils/debounce';
 import { useTodos } from '../hooks/useTodos';
 import { NewTodo } from './newTodo';
 import { Todo } from './todo';
 
-const getFilteredTodos = (todos, search) => {
-    return todos.filter(todo =>
-        todo.text.toLowerCase().includes(search))
-}
 export const TodosList = ({ page }) => {
     if (page < 1) page = 1
     const {
@@ -18,16 +14,9 @@ export const TodosList = ({ page }) => {
         currentPage,
         maxPages
     } = useTodos(page);
-    const searchInputRef = useRef(null)
     const handleSearch = (e) => {
-        const search = e.target.value.toLowerCase()
-        setFilteredTodos(getFilteredTodos(todos, search))
+        fetchTodos(currentPage, e.target.value.toLowerCase())
     }
-    const [filteredTodos, setFilteredTodos] = useState(todos)
-    useEffect(() => {
-        const search = searchInputRef.current.value.toLowerCase()
-        setFilteredTodos(getFilteredTodos(todos, search))
-    }, [todos])
 
 
     const handlePageChange = async (newPage) => {
@@ -40,9 +29,9 @@ export const TodosList = ({ page }) => {
     return (
         <div className='flex flex-col mx-auto mt-10 pb-10 bg-primary-content max-w-[1080px] pt-16'>
             <div className="flex flex-col justify-center mx-5">
-                <input onChange={handleSearch} ref={searchInputRef} type="text" placeholder="Search todos" className="input input-bordered w-full mb-5" />
+                <input onChange={debounce(handleSearch, 500)} type="text" placeholder="Search todos" className="input input-bordered w-full mb-5" />
                 <NewTodo onCreate={createTodo} />
-                {filteredTodos.map(todo => (
+                {todos.map(todo => (
                     <Todo
                         key={todo._id}
                         text={todo.text}

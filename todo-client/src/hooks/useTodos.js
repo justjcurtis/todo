@@ -5,6 +5,8 @@ import { deleteTodoRequest } from '../api/deleteTodoRequest'
 import { updateTodoRequest } from '../api/updateTodoRequest';
 import { createTodoRequest } from '../api/createTodoRequest';
 
+const limit = 10;
+
 export const useTodos = (initialPage = 1) => {
   const { token, isLoggedIn } = useUserContext();
   const [todos, setTodos] = useState([]);
@@ -12,13 +14,13 @@ export const useTodos = (initialPage = 1) => {
   const [maxPages, setMaxPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const fetchTodos = async (page = 1, limit = 10) => {
+  const fetchTodos = async (page = 1, search) => {
     if (!isLoggedIn()) {
       return;
     }
     setLoading(true);
     try {
-      const result = await getTodosRequest(page, limit, token);
+      const result = await getTodosRequest(page, limit, search, token);
       setTodos(result.todos)
       setMaxPages(Math.ceil(result.totalCount / limit))
       setCurrentPage(page);

@@ -1,6 +1,6 @@
 import { API_URL } from '../constants';
 export const createTodoRequest = async (todo, token) => {
-    const response = await fetch(`${API_URL}/todos`, {
+    const response = await fetch(`${API_URL}/todo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

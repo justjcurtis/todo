@@ -6,6 +6,7 @@ const createTodoRoute = async (req, res) => {
     const completed = req.body.completed;
     const todo = new TodoModel({ userId, text, completed });
     await todo.save();
+    console.log('create', todo);
     res.json(todo);
 }
 
