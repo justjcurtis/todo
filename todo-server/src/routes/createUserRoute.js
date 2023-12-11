@@ -7,7 +7,6 @@ const checkPassword = (password) => {
     const has2Lowercase = !!password.match(/[a-z].*[a-z]/);
     const has1Symbol = !password.match(/^[a-zA-Z0-9]*$/);
     const result = has2Numbers && has2Capitals && has2Lowercase && has1Symbol && password.length >= 8;
-    console.log(result);
     return result;
 }
 

@@ -8,7 +8,7 @@ import { createTodoRequest } from '../api/createTodoRequest';
 const limit = 10;
 
 export const useTodos = (initialPage = 1) => {
-  const { isLoggedIn } = useUserContext();
+  const { isLoggedIn, logout } = useUserContext();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [maxPages, setMaxPages] = useState(0);
@@ -25,7 +25,7 @@ export const useTodos = (initialPage = 1) => {
       setMaxPages(Math.ceil(result.totalCount / limit))
       setCurrentPage(page);
     } catch (err) {
-      console.log(err);
+      logout();
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ export const useTodos = (initialPage = 1) => {
       await deleteTodoRequest(id);
       await fetchTodos(currentPage);
     } catch (err) {
-      console.log(err);
+      logout();
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ export const useTodos = (initialPage = 1) => {
     try {
       await updateTodoRequest(id, todo);
     } catch (err) {
-      console.log(err);
+      logout();
     } finally {
       setLoading(false);
     }
@@ -69,7 +69,7 @@ export const useTodos = (initialPage = 1) => {
       await createTodoRequest(todo);
       await fetchTodos(currentPage);
     } catch (err) {
-      console.log(err);
+      logout();
     } finally {
       setLoading(false);
     }
