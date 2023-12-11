@@ -10,6 +10,8 @@ const filterMap = {
     false: { name: 'Incomplete', nextFilter: undefined }
 }
 
+const getSearchPage = (search, currentPage) => search.length > 0 ? 1 : currentPage
+
 export const TodosList = ({ page }) => {
     const {
         todos,
@@ -21,20 +23,22 @@ export const TodosList = ({ page }) => {
         maxPages
     } = useTodos(page);
 
+    const [userPage, setUserPage] = useState(page)
+
     const [filter, setFilter] = useState()
-    const cycleFilter = () => {
+    const cycleFilter = async () => {
         const nextFilter = filterMap[filter].nextFilter
         setFilter(nextFilter)
         const search = searchInputRef.current.value.toLowerCase()
-        const searchPage = search.length > 0 ? 1 : currentPage
-        fetchTodos(searchPage, search, nextFilter)
+        const searchPage = getSearchPage(search, userPage)
+        await fetchTodos(searchPage, search, nextFilter)
     }
 
     const searchInputRef = useRef(null);
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         const search = e.target.value.toLowerCase()
-        const searchPage = search.length > 0 ? 1 : currentPage
-        fetchTodos(searchPage, search, filter)
+        const searchPage = getSearchPage(search, userPage)
+        await fetchTodos(searchPage, search, filter)
     }
 
     const handlePageChange = async (newPage) => {
@@ -45,7 +49,9 @@ export const TodosList = ({ page }) => {
     }
 
     const showPagination = searchInputRef.current?.value.length === 0
-
+    if (showPagination && userPage !== currentPage) {
+        setUserPage(currentPage)
+    }
     return (
         <div className='flex flex-col mx-auto mt-5 bg-primary-content max-w-[1080px] pt-16'>
             <div className="flex flex-col justify-center mx-5">
@@ -70,7 +76,7 @@ export const TodosList = ({ page }) => {
             <div className="flex justify-center mt-3">
                 <div className="join">
                     {showPagination && Array.from(Array(maxPages).keys()).map((_, i) => (
-                        <button key={i} onClick={() => handlePageChange(i + 1)} className={`join-item btn ${currentPage === i + 1 ? 'btn-active' : ''}`}>{i + 1}</button>
+                        <button key={i} onClick={() => handlePageChange(i + 1)} className={`join-item btn ${userPage == i + 1 ? 'btn-active' : ''}`}>{i + 1}</button>
                     ))}
                 </div>
             </div >
