@@ -5,6 +5,7 @@ const deleteTodoRoute = require('./deleteTodoRoute')
 
 const createUserRoute = require('./createUserRoute')
 const loginRoute = require('./loginRoute')
+const logoutRoute = require('./logoutRoute')
 
 module.exports = {
     createTodoRoute,
@@ -13,5 +14,6 @@ module.exports = {
     deleteTodoRoute,
 
     createUserRoute,
-    loginRoute
+    loginRoute,
+    logoutRoute
 }

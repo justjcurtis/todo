@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { createContext } from 'react'
 import { loginRequest } from '../api/loginRequest'
+import { logoutRequest } from '../api/logoutRequest'
 
 export const UserContext = createContext()
 
@@ -14,7 +15,8 @@ export const UserProvider = ({ children }) => {
       setIsLoggedIn(false)
     }
   }
-  const logout = () => {
+  const logout = async () => {
+    await logoutRequest()
     setIsLoggedIn(false)
   }
   return (
