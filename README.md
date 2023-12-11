@@ -39,7 +39,7 @@
     ```
     yarn install
     ```
-- run `yarn dev` to launch the client and navigate to `localhost:5173` in your preferred browser
+- run `yarn dev` to launch the client and navigate to `localhost:5173/todo` in your preferred browser
     ```
     yarn dev
     ```
