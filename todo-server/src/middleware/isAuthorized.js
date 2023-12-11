@@ -20,8 +20,9 @@ const isAuthorized = async (req, res, next) => {
         const csrfisValid = verifyUserCsrf(user, req.headers['csrf-token'])
         if (!csrfisValid) return rejectIsAuthorized(res);
         if (user.refreshToken != refreshToken) return rejectIsAuthorized(res);
-        createToken({ id: user._id }, process.env.JWT_SECRET, process.env.JWT_EXPIRES_IN);
-        setTokens(user, res, accessToken, refreshToken);
+        const accessToken = createToken({ id: user._id }, process.env.JWT_SECRET, process.env.JWT_EXPIRES_IN);
+        await setTokens(user, res, accessToken, refreshToken);
+        req.cookies.accessToken = accessToken;
         next();
     } else {
         req.user = accessTokenDecoded;
