@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
     csrf: {
         type: String,
         default: ''
+    },
+    refreshToken: {
+        type: String,
+        default: ''
     }
 })
 

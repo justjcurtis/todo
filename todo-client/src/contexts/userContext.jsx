@@ -12,11 +12,12 @@ const updateCsrf = (csrf) => {
 }
 
 export const UserProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'))
   const login = async (email, password) => {
     try {
       const { csrf } = await loginRequest(email, password)
       updateCsrf(csrf)
+      localStorage.setItem('isLoggedIn', true)
       setIsLoggedIn(true)
     } catch (err) {
       setIsLoggedIn(false)
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }) => {
   const logout = async () => {
     await logoutRequest()
     updateCsrf('')
+    localStorage.setItem('isLoggedIn', false)
     setIsLoggedIn(false)
   }
   return (
