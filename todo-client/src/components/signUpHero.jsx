@@ -1,6 +1,6 @@
 export const SignUpHero = () => {
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="hero min-h-screen bg-primary-content">
             <div className="hero-content text-center">
                 <div className="max-w-md">
                     <h1 className="text-5xl font-bold">Hello there THM</h1>
