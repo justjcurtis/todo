@@ -64,12 +64,12 @@ export const SignUp = () => {
                         <h1 className="text-5xl font-bold">Sign Up Now!</h1>
                         <p className="py-6">Our state of the art do and to algorithm is a must have in today{"'"}s fast paced world. Sign up now to start doing all those tos.</p>
                     </div>
-                    <InfoCard title="About your password" info={[
-                        "Must be at least 8 characters long",
-                        "Must contain at least 2 lowercase letters",
-                        "Must contain at least 2 uppercase letters",
-                        "Must contain at least 2 numbers",
-                        "Must contain at least 1 special character",
+                    <InfoCard title="About your Username & Password" info={[
+                        "Username must be at least 3 characters long",
+                        "Password must be at least 8 characters long",
+                        "Password must contain at least 2 lowercase and uppercase letters",
+                        "Password must contain at least 2 numbers",
+                        "Password must contain at least 1 special character",
                     ]} />
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
