@@ -12,7 +12,7 @@ const updateCsrf = (csrf) => {
 }
 
 export const UserProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn'))
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') == 'true')
   const login = async (email, password) => {
     try {
       const { csrf } = await loginRequest(email, password)
